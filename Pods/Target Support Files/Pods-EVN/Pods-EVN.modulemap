@@ -1,0 +1,6 @@
+framework module Pods_EVN {
+  umbrella header "Pods-EVN-umbrella.h"
+
+  export *
+  module * { export * }
+}
