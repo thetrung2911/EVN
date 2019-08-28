@@ -16,10 +16,14 @@ class MainScreen: UIViewController {
     var SingIn = UIButton()
     var SingUp = UIButton()
     var Forgot = UIButton()
-
+    static var ids: Int = Int()
+    static var uers = [Users]()
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        MainScreen.uers.append(Users(id: "Admin", pass: "admin", adr: "trung",items: [],tongKw: 0,tongtien: 0))
+        print(MainScreen.uers)
+        print(MainScreen.uers)
         view.sv(logo,Id,Pass,SingIn,Forgot,SingUp)
         autoLayoutLogo()
         autoLayoutId()
@@ -52,7 +56,7 @@ class MainScreen: UIViewController {
         Id.layer.borderWidth = 2
         Id.layer.cornerRadius = 10
         Id.tintColor = .darkGray
-        Id.textColor = .gray
+        Id.textColor = .black
         Id.placeholder = "Mã khách hàng"
     }
     fileprivate func autoLayoutPass(){
@@ -64,7 +68,7 @@ class MainScreen: UIViewController {
         Pass.layer.borderWidth = 2
         Pass.layer.cornerRadius = 10
         Pass.tintColor = .darkGray
-        Pass.textColor = .gray
+        Pass.textColor = .black
         Pass.placeholder = "Nhập mật khẩu"
         Pass.isSecureTextEntry = true
     }
@@ -93,9 +97,20 @@ class MainScreen: UIViewController {
     }
     
     @objc func onSingIn(){
-        let Home = HomeVC()
-        let navigationVC = UINavigationController(rootViewController: Home)
-        present(navigationVC, animated: true, completion: nil)
+        for i in 0..<MainScreen.uers.count{
+            if Id.text! == MainScreen.uers[i].id{
+                if Pass.text == MainScreen.uers[i].pass{
+                    MainScreen.ids = i 
+                    let Home = HomeVC()
+                    let navigationVC = UINavigationController(rootViewController: Home)
+                    present(navigationVC, animated: true, completion: nil)
+                }else{
+                    Pass.layer.borderColor = UIColor.red.cgColor
+                }
+                break
+            }
+        }
+        
     }
     @objc func onSingUp(){
         let SingUp = SingUpVC()

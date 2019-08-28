@@ -20,3 +20,11 @@ struct Item1 {
     var name: String
     var money: String
 }
+struct Users {
+    var id: String
+    var pass: String
+    var adr: String
+    var items: [Item1]
+    var tongKw: Int
+    var tongtien: Int
+}

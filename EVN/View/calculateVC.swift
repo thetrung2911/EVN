@@ -14,7 +14,7 @@ class CalculateVC: UIViewController,UINavigationControllerDelegate {
     var capacity = UITextField()
     var time = UITextField()
     var traCuu = UIButton()
-    var passObject: ((Item1) -> Void)?
+//    var passObject: ((Item1) -> Void)?
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -73,12 +73,25 @@ class CalculateVC: UIViewController,UINavigationControllerDelegate {
     }
     
     @objc func onTraCuu(){
-        var tongtien = Int()
-        tongtien = Int(time.text!)! * Int(capacity.text!)! * 3000
-        JanuaryVC.tongVnd += tongtien
-        JanuaryVC.vnd.text = String(JanuaryVC.tongVnd)
-        passObject?(Item1(name: name.text!, money: String(tongtien)))
-        
+        var tongtien = 0
+        MainScreen.uers[MainScreen.ids].tongKw += Int(time.text!)! * Int(capacity.text!)!
+        switch MainScreen.uers[MainScreen.ids].tongKw {
+        case 0...50:
+            tongtien = MainScreen.uers[MainScreen.ids].tongKw * 1678
+        case 51...100:
+            tongtien = (MainScreen.uers[MainScreen.ids].tongKw - 50) * 1734 + 50 * 1678
+        case 101...200:
+            tongtien = (MainScreen.uers[MainScreen.ids].tongKw - 100) * 2014 + 50 * 1734 + 50 * 1678
+        case 201...300:
+            tongtien = (MainScreen.uers[MainScreen.ids].tongKw - 200) * 2536 + 100 * 2014 + 50 * 1734 + 50 * 1678
+        case 301...400:
+            tongtien = (MainScreen.uers[MainScreen.ids].tongKw - 300) * 2834 + 100 * 2536 + 100 * 2014 + 50 * 1734 + 50 * 1678
+        default:
+            tongtien = (MainScreen.uers[MainScreen.ids].tongKw - 400) * 2927 + 100 * 2834 + 100 * 2536 + 100 * 2014 + 50 * 1734 + 50 * 1678
+        }
+        MainScreen.uers[MainScreen.ids].tongtien = tongtien
+        JanuaryVC.vnd.text = String(MainScreen.uers[MainScreen.ids].tongtien)
+        MainScreen.uers[MainScreen.ids].items.append(Item1(name: name.text!, money: String(Int(time.text!)! * Int(capacity.text!)!)))
         navigationController?.popViewController(animated: true)
     }
     

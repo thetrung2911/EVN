@@ -86,6 +86,9 @@ class SingUpVC: UIViewController {
         SingUp.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onSingUp)))
     }
     @objc func onSingUp(){
+        
+        MainScreen.uers.append(Users(id: Id.text!, pass: Pass.text!, adr: Address.text!,items: [],tongKw: 0, tongtien: 0))
+        MainScreen.ids = MainScreen.uers.count - 1
         let alert = UIAlertController(title: "Chúc Mừng", message: "Bạn đã đăng ký thành công!!!", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
             let Home = HomeVC()

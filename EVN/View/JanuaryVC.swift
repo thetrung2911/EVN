@@ -14,20 +14,17 @@ class JanuaryVC: UIViewController {
     var bottomView = UIView()
     var tableView = UITableView()
     static var vnd = UILabel()
-    static var tongVnd = Int()
     
     let cellID = "cell"
-    static var items = [Item1]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.backgroundColor = .white
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(onAddTap))
-        createData()
-        for i in JanuaryVC.items{
-            JanuaryVC.tongVnd += Int(i.money)!
-        }
+//        for i in JanuaryVC.items{
+//            JanuaryVC.tongVnd += Int(i.money)!
+//        }
         view.sv(topView,bottomView,tableView)
         autoLayoutTopView()
         autoLayoutBottomView()
@@ -49,7 +46,7 @@ class JanuaryVC: UIViewController {
         name.textAlignment = .center
         name.textColor = UIColor(red:0.06, green:0.05, blue:0.65, alpha:1.0)
         
-        vnd.text = "Số tiền"
+        vnd.text = "Số kw/tháng"
         vnd.centerVertically().left(70%).right(16)
         vnd.textAlignment = .center
         vnd.textColor = UIColor(red:0.06, green:0.05, blue:0.65, alpha:1.0)
@@ -66,7 +63,7 @@ class JanuaryVC: UIViewController {
         name.centerVertically().right(35%)
         name.textColor = UIColor(red:0.06, green:0.05, blue:0.65, alpha:1.0)
         
-        JanuaryVC.vnd.text = String(JanuaryVC.tongVnd)
+        JanuaryVC.vnd.text = String(MainScreen.uers[MainScreen.ids].tongtien)
         JanuaryVC.vnd.centerVertically().left(70%)
         JanuaryVC.vnd.textColor = UIColor(red:0.06, green:0.05, blue:0.65, alpha:1.0)
     }
@@ -79,28 +76,18 @@ class JanuaryVC: UIViewController {
         
         tableView.register(CustomCell1.self, forCellReuseIdentifier: cellID)
     }
-    func createData(){
-        let item = Item1(name: "Tủ lạnh", money: "100000")
-        let item1 = Item1(name: "Máy giặt", money: "200000")
-        let item2 = Item1(name: "Điều hoà", money: "1000000")
-        JanuaryVC.items = [item,item1,item2]
-    }
+   
     
     
     @objc func onAddTap(){
         let secondVC = CalculateVC()
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-        secondVC.passObject = {
-            [weak self] item in
-            guard let strongSelf = self else {
-                return
-            }
-            
-            JanuaryVC.items.append(item)
-            strongSelf.tableView.reloadData()
-            print(item)
-        }
         navigationController?.pushViewController(secondVC, animated: true)
+    }
+    
+    // reload lại data trong
+    override func viewDidAppear(_ animated: Bool) {
+        tableView.reloadData()
     }
     
     
@@ -108,7 +95,7 @@ class JanuaryVC: UIViewController {
 extension JanuaryVC: UITableViewDelegate, UITableViewDataSource {
     // hàm này trả về số dòng trong một section
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return JanuaryVC.items.count
+        return MainScreen.uers[MainScreen.ids].items.count
     }
     
     // hàm trả về nội dung của một cell
@@ -116,8 +103,8 @@ extension JanuaryVC: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as! CustomCell1
         
         // gán giá trị cho các thành phần trong cell
-        cell.nameLabel.text = JanuaryVC.items[indexPath.row].name
-        cell.vndLabel.text = JanuaryVC.items[indexPath.row].money
+        cell.nameLabel.text = MainScreen.uers[MainScreen.ids].items[indexPath.row].name
+        cell.vndLabel.text = MainScreen.uers[MainScreen.ids].items[indexPath.row].money
         
         return cell
     }

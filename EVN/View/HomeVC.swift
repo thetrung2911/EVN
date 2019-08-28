@@ -19,10 +19,10 @@ class HomeVC: UIViewController {
     var items = [Item]()
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Thoát", style: .done, target: self, action: #selector(onSingOut))
         view.backgroundColor = .white
         title = "EVN VC"
-        
+        print(MainScreen.uers)
         createData()
         // tính chiều cao navigation bar
         barHeight = navigationController?.navigationBar.frame.height ?? 0.0
@@ -36,6 +36,12 @@ class HomeVC: UIViewController {
         }
         setupTableView()
     }
+    @objc func onSingOut(){
+        let singIn = MainScreen()
+//        JanuaryVC.tongVnd = 0
+        self.present(singIn, animated: true, completion: nil)
+        
+    }
     func createData(){
         let item1 = Item(tille: "Tháng 1", service: "Tiền điện theo số Kwh", photo: UIImage(named: "nen1"), identifier: "JanuaryVC")
         let item2 = Item(tille: "Tháng 2", service: "Địa điểm nạp tiền điện", photo: UIImage(named: "nen1"), identifier: "SearchVC")
@@ -46,13 +52,14 @@ class HomeVC: UIViewController {
         
         items = [item1, item2, item3, item4, item5, item6]
     }
-    override func viewWillAppear(_ animated: Bool) {
-        self.navigationController?.navigationBar.isHidden = true
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        self.navigationController?.navigationBar.isHidden = false
-    }
+//    override func viewWillAppear(_ animated: Bool) {
+//        self.navigationController?.navigationBar.isHidden = true
+//    }
+//    
+//    override func viewWillDisappear(_ animated: Bool) {
+//        self.navigationController?.navigationBar.isHidden = false
+//    }
+//    
     func setupTableView(){
         tableView.translatesAutoresizingMaskIntoConstraints = false
         view.sv(tableView)
